@@ -1,8 +1,9 @@
 require 'httparty'
 require 'webrick'
+require 'yaml'
 
 class SlackNotifier < WEBrick::HTTPServlet::AbstractServlet
-  WEBHOOK_URL = 'https://hooks.slack.com/services/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'.freeze
+  ENV = YAML.load_file('env.yml')
 
   def do_POST(request, response)
     unless request.body
@@ -37,6 +38,6 @@ class SlackNotifier < WEBrick::HTTPServlet::AbstractServlet
 
   def send_slack_notification(params)
     message = "New spam notification received!\nEmail: #{ params['Email'] }"
-    HTTParty.post(WEBHOOK_URL, body: { text: message }.to_json)
+    HTTParty.post(ENV['WEBHOOK_URL'], body: { text: message }.to_json)
   end
 end
