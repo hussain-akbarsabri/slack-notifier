@@ -41,3 +41,5 @@ class SlackNotifier < WEBrick::HTTPServlet::AbstractServlet
     HTTParty.post(ENV['WEBHOOK_URL'], body: { text: message }.to_json)
   end
 end
+
+# added a new comment
